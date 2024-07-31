@@ -59,7 +59,11 @@ carController.updateCar = async (req, res, next) => {
     const existCar = await carService.findCarByLicensePlate(data.licensePlate);
 
     if (existCar && existCar.id !== id) {
-      createError("License plate already exists", 400, "licensePlate");
+      createError(
+        "License plate already exists in other cars",
+        400,
+        "licensePlate"
+      );
     }
 
     // update car

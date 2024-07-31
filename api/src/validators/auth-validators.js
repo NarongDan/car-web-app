@@ -12,4 +12,9 @@ authValidator.registerSchema = Joi.object({
   confirmPassword: Joi.string().required().valid(Joi.ref("password")).strip(),
 });
 
+authValidator.loginSchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
 module.exports = authValidator;

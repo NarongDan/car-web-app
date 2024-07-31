@@ -1,6 +1,6 @@
 const { JsonWebTokenError, TokenExpiredError } = require("jsonwebtoken");
 
-module.exports = (error, req, res, next) => {
+const errorMiddleware = (error, req, res, next) => {
   if (
     error instanceof JsonWebTokenError ||
     error instanceof TokenExpiredError
@@ -12,3 +12,5 @@ module.exports = (error, req, res, next) => {
     .status(error.statusCode || 500)
     .json({ message: error.message, field: error.field });
 };
+
+module.exports = errorMiddleware;

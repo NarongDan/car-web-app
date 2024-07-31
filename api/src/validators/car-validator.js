@@ -1,8 +1,9 @@
 const { createError } = require("../utils/create-error");
 
-const carValidator = (req, res, next) => {
+const carValidator = async (req, res, next) => {
   const { licensePlate, brand, model, color, fuelType } = req.body;
 
+  // check which field is empty
   if (!licensePlate) {
     createError("License plate is required", 400, "licensePlate");
   }

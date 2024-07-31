@@ -54,7 +54,7 @@ authController.login = async (req, res, next) => {
 
     const accessToken = jwtService.sign({ id: existUser.id });
 
-    res.status(200).json({ message: accessToken });
+    res.status(200).json({ accessToken });
   } catch (error) {
     next(error);
   }

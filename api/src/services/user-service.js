@@ -11,4 +11,11 @@ userService.findUserByEmail = (email) =>
 
 userService.createUser = (data) => prisma.user.create({ data });
 
+userService.findUserById = (id) =>
+  prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
 module.exports = userService;

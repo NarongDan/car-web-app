@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 
 app.use("/auth", authRouter);
-app.use("/car", carRouter);
+app.use("/cars", carRouter);
 //  Not Found and Error Middlewares
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

@@ -9,4 +9,8 @@ carService.findAllCars = () => {
   });
 };
 
+carService.addNewCar = (data) => {
+  return prisma.car.create({ data });
+};
+
 module.exports = carService;

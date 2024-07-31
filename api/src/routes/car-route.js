@@ -1,11 +1,13 @@
 const express = require("express");
-const authenticate = require("../middlewares/authenticate");
+
 const carController = require("../controllers/car-controller");
 const carValidator = require("../validators/car-validator");
 const carRouter = express.Router();
 
-carRouter.get("/", authenticate, carController.getAllCars);
+carRouter.get("/", carController.getAllCars);
 
-carRouter.post("/", authenticate, carValidator, carController.addNewCar);
+carRouter.post("/", carValidator, carController.addNewCar);
+
+carRouter.delete("/:carId", carController.deleteCar);
 
 module.exports = carRouter;

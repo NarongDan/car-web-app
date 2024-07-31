@@ -6,6 +6,7 @@ const errorMiddleware = require("./middlewares/error");
 const notFoundMiddleware = require("./middlewares/not-found");
 const authRouter = require("./routes/auth-route");
 const carRouter = require("./routes/car-route");
+const authenticate = require("./middlewares/authenticate");
 //
 app.use(cors());
 app.use(express.json());
@@ -13,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 
 app.use("/auth", authRouter);
-app.use("/cars", carRouter);
+app.use("/cars", authenticate, carRouter);
 //  Not Found and Error Middlewares
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

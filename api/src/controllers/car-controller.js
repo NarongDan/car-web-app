@@ -31,4 +31,17 @@ carController.addNewCar = async (req, res, next) => {
   }
 };
 
+carController.deleteCar = async (req, res, next) => {
+  try {
+    console.log(req.params);
+    // make sure it's Number
+    const id = Number(req.params.carId);
+    await carService.deleteCar(id);
+
+    res.status(200).json({ message: "car deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = carController;

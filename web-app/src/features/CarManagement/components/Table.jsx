@@ -11,6 +11,8 @@ export default function Table({ cars }) {
 
   const { handleRemove } = useCar();
 
+  console.log(modal);
+
   const closeModal = () => {
     setModal(false);
   };

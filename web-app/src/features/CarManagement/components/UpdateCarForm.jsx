@@ -52,11 +52,12 @@ export default function UpdateCarForm({ car = {}, setModal }) {
 
     const message = await handleUpdateAndAddCar(id, input);
 
-    if (message.text) {
+    if (message?.text) {
       setInputError(initialInput);
       setInput(initialInput);
-    }
-    if (message) {
+
+      return;
+    } else if (message) {
       const errorMessage = message.errors
         ? message.errors.reduce((acc, err) => {
             acc[err.field] = err.message;
@@ -65,21 +66,20 @@ export default function UpdateCarForm({ car = {}, setModal }) {
         : { [message.field]: message.message };
 
       setInputError((prev) => ({ ...prev, ...errorMessage }));
-    }
-    setModal(false);
+    } else setModal(false);
   };
 
   useEffect(() => {
     if (car && Object.keys(car).length > 0) {
       setInput({
-        licensePlate: car.licensePlate,
-        brand: car.brand,
-        model: car.model,
-        color: car.color,
-        fuelType: car.fuelType,
-        status: car.status,
-        insurance: car.insurance,
-        notes: car.notes,
+        licensePlate: car.licensePlate || "",
+        brand: car.brand || "",
+        model: car.model || "",
+        color: car.color || "",
+        fuelType: car.fuelType || "",
+        status: car.status || "",
+        insurance: car.insurance || "",
+        notes: car.notes || "",
       });
     }
   }, [car]);

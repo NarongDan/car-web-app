@@ -64,19 +64,18 @@ export default function CarContextProvider({ children }) {
         });
       } else {
         await carsApi.addNewCar(data);
+
         Swal.fire({
           title: "Add New Car",
           text: "New Car Added",
           icon: "success",
           timer: 1000,
         });
-
         return { text: "new car added" };
       }
 
       fetchCars();
     } catch (error) {
-      console.log(error);
       if (error instanceof AxiosError) {
         const message = error.response.data;
         return message;

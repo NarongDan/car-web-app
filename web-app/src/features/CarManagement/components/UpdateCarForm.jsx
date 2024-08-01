@@ -3,6 +3,7 @@ import Input from "../../../components/Input";
 import Textarea from "../../../components/Textarea";
 import { carStatus, fuelType } from "./option-value";
 import { useCar } from "../../../contexts/car-context";
+import validateCar from "../../../validtors/validate-car";
 
 export default function UpdateCarForm({ car, setModal }) {
   const id = car.id || undefined;
@@ -40,6 +41,11 @@ export default function UpdateCarForm({ car, setModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const error = validateCar(input);
+    if (error) {
+      return setInputError(error);
+    }
     const message = await handleUpdateAndAddCar(id, input);
 
     if (message) {

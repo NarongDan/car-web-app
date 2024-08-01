@@ -4,10 +4,10 @@ import Sidebar from "../layouts/Sidebar";
 export default function MainContainer() {
   return (
     <div className="flex h-screen">
-      <div className="w-[230px]">
+      <div className="w-[200px]">
         <Sidebar />
       </div>
-      <div className="w-[calc(100vw-230px)] p- bg-gray-100 ">
+      <div className="w-[calc(100%-200px)] bg-gray-100 overflow-auto ">
         <Outlet />
       </div>
     </div>

@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      sweetalert2:
+        specifier: ^11.12.3
+        version: 11.12.3
+
+packages:
+
+  sweetalert2@11.12.3:
+    resolution: {integrity: sha512-tgGJSgfSV/xK113JEvhjwqKAuBYLXsZf0z+tGlHKQNnsLMi4eSNuzn9tt5hUdvjOVTLSPDgo0Lc+tnjy9Uj7Og==}
+
+snapshots:
+
+  sweetalert2@11.12.3: {}

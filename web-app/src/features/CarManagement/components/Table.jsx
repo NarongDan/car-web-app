@@ -1,7 +1,10 @@
 import React from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { LuWrench } from "react-icons/lu";
+import { useCar } from "../../../contexts/car-context";
+
 export default function Table({ cars }) {
+  const { handleRemove } = useCar();
   return (
     <div className="p-4">
       <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -15,11 +18,11 @@ export default function Table({ cars }) {
             <th className="w-2/12 px-4 py-2">Fuel Type</th>
             <th className="w-1/12 px-4 py-2">Status</th>
             <th className="w-2/12 px-4 py-2">Notes</th>
-            <th className="w-1/12 px-4 py-2"> </th>
+            <th className="w-1/12 px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {cars.map((car, index) => (
+          {cars?.map((car, index) => (
             <tr
               key={car.id}
               className={`${index % 2 === 0 ? "bg-blue-50" : "bg-blue-100"}`}
@@ -51,6 +54,7 @@ export default function Table({ cars }) {
                   <button
                     type="button"
                     className="bg-red-300 rounded-md p-2 hover:bg-red-500"
+                    onClick={() => handleRemove(car.id)}
                   >
                     <MdOutlineDelete />
                   </button>

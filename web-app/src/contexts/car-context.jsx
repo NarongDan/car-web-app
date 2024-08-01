@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import carsApi from "../apis/car";
 import Swal from "sweetalert2";
+import { AxiosError } from "axios";
 
 const CarContext = createContext();
 
@@ -51,12 +52,36 @@ export default function CarContextProvider({ children }) {
     }
   };
 
+  const handleUpdateAndAddCar = async (id, data) => {
+    try {
+      if (id) {
+        await carsApi.updateCar(id, data);
+        Swal.fire({
+          title: "Update Car",
+          text: "Update Success",
+          icon: "success",
+          timer: 1000,
+        });
+      } else {
+        await carsApi.addNewCar(data);
+      }
+
+      fetchCars();
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        const message = error.response.data;
+        return message;
+      }
+    }
+  };
+
   useEffect(() => {
     fetchCars();
   }, []);
 
   return (
-    <CarContext.Provider value={{ cars, handleRemove }}>
+    <CarContext.Provider value={{ cars, handleRemove, handleUpdateAndAddCar }}>
       {children}
     </CarContext.Provider>
   );

@@ -1,3 +1,5 @@
+// กรณีตัวเดียว
+
 const createError = (msg, statusCode, field) => {
   const error = new Error(msg);
   error.statusCode = statusCode;
@@ -5,4 +7,9 @@ const createError = (msg, statusCode, field) => {
   throw error;
 };
 
-module.exports = { createError };
+// กรณีหลายตัว
+const createManyError = (msg, statusCode, field) => {
+  return { message: msg, statusCode: statusCode, field: field };
+};
+
+module.exports = { createError, createManyError };

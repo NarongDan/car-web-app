@@ -1,4 +1,4 @@
-const { createError } = require("../utils/create-error");
+const { createError, createManyError } = require("../utils/create-error");
 const authValidator = require("../validators/auth-validators");
 const carValidator = require("../validators/car-validator");
 
@@ -23,10 +23,16 @@ validator.login = (req, res, next) => {
 };
 
 validator.carValidate = (req, res, next) => {
-  const { value, error } = carValidator.carSchema.validate(req.body);
+  const { value, error } = carValidator.carSchema.validate(req.body, {
+    abortEarly: false,
+  });
 
   if (error) {
-    createError(error.details[0].message, 400);
+    const errorDetails = error.details.map((detail) =>
+      createManyError(detail.message, 400, detail.path[0])
+    );
+
+    return next(errorDetails);
   }
   req.input = value;
   next();

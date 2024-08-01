@@ -43,6 +43,7 @@ carController.addNewCar = async (req, res, next) => {
 
 carController.updateCar = async (req, res, next) => {
   try {
+    console.log(res.body);
     const id = Number(req.params.carId);
     const data = {
       licensePlate: req.body.licensePlate,

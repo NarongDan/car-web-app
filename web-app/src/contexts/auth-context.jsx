@@ -11,6 +11,7 @@ const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async () => {
     try {
@@ -20,6 +21,8 @@ export default function AuthContextProvider({ children }) {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -43,7 +46,16 @@ export default function AuthContextProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ login, logout, authUser, setAuthUser }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        logout,
+        authUser,
+        setAuthUser,
+        isLoading,
+        setIsLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

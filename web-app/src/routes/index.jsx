@@ -4,15 +4,18 @@ import MainContainer from "../pages/MainContainer";
 import CarReport from "../features/CarManagement/CarReport";
 import AddNewCar from "../features/CarManagement/AddNewCar";
 import CarContextProvider from "../contexts/car-context";
+import ProtectRoute from "../features/authentication/ProtectRoute";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
   {
     path: "/",
     element: (
-      <CarContextProvider>
-        <MainContainer />
-      </CarContextProvider>
+      <ProtectRoute>
+        <CarContextProvider>
+          <MainContainer />
+        </CarContextProvider>
+      </ProtectRoute>
     ),
     children: [
       { path: "/", element: <CarReport /> },

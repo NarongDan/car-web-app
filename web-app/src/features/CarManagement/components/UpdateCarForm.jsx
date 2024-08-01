@@ -5,6 +5,7 @@ import { carStatus, fuelType } from "./option-value";
 import { useCar } from "../../../contexts/car-context";
 import validateCar from "../../../validtors/validate-car";
 import Select from "../../../components/Select";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const initialInput = {
   licensePlate: "",
@@ -21,6 +22,7 @@ export default function UpdateCarForm({ car = {}, setModal }) {
   const id = car?.id || undefined;
 
   const { handleUpdateAndAddCar } = useCar();
+  const [loading, setLoading] = useState(false);
 
   const [input, setInput] = useState({
     licensePlate: car.licensePlate || "",
@@ -40,33 +42,40 @@ export default function UpdateCarForm({ car = {}, setModal }) {
       ...input,
       [name]: value,
     });
+    setInputError(initialInput);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const error = validateCar(input);
-    if (error) {
-      return setInputError(error);
+    try {
+      const error = validateCar(input);
+      if (error) {
+        return setInputError(error);
+      }
+      setLoading(true);
+      const message = await handleUpdateAndAddCar(id, input);
+
+      if (message?.text) {
+        setInputError(initialInput);
+        setInput(initialInput);
+
+        return;
+      } else if (message) {
+        const errorMessage = message.errors
+          ? message.errors.reduce((acc, err) => {
+              acc[err.field] = err.message;
+              return acc;
+            }, {})
+          : { [message.field]: message.message };
+
+        setInputError((prev) => ({ ...prev, ...errorMessage }));
+      } else setModal(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    const message = await handleUpdateAndAddCar(id, input);
-
-    if (message?.text) {
-      setInputError(initialInput);
-      setInput(initialInput);
-
-      return;
-    } else if (message) {
-      const errorMessage = message.errors
-        ? message.errors.reduce((acc, err) => {
-            acc[err.field] = err.message;
-            return acc;
-          }, {})
-        : { [message.field]: message.message };
-
-      setInputError((prev) => ({ ...prev, ...errorMessage }));
-    } else setModal(false);
   };
 
   useEffect(() => {
@@ -83,6 +92,10 @@ export default function UpdateCarForm({ car = {}, setModal }) {
       });
     }
   }, [car]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="max-w-md mx-auto bg-white p-8 shadow-md rounded-md">

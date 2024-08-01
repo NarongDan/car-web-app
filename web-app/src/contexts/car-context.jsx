@@ -7,6 +7,8 @@ const CarContext = createContext();
 
 export default function CarContextProvider({ children }) {
   const [cars, setCars] = useState(null);
+  const [isCarsLoading, setIsCarsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchCars = async () => {
     try {
@@ -16,6 +18,7 @@ export default function CarContextProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
+    setIsCarsLoading(false);
   };
 
   const handleRemove = async (id) => {
@@ -29,6 +32,7 @@ export default function CarContextProvider({ children }) {
       });
 
       if (button.isConfirmed) {
+        setLoading(true);
         const res = await carsApi.deleteCar(id);
 
         if (res.status === 200) {
@@ -49,6 +53,8 @@ export default function CarContextProvider({ children }) {
         text: error.message,
         icon: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,7 +94,15 @@ export default function CarContextProvider({ children }) {
   }, []);
 
   return (
-    <CarContext.Provider value={{ cars, handleRemove, handleUpdateAndAddCar }}>
+    <CarContext.Provider
+      value={{
+        cars,
+        handleRemove,
+        handleUpdateAndAddCar,
+        isCarsLoading,
+        loading,
+      }}
+    >
       {children}
     </CarContext.Provider>
   );

@@ -4,18 +4,21 @@ import { LuWrench } from "react-icons/lu";
 import { useCar } from "../../../contexts/car-context";
 import Modal from "../../../components/Modal";
 import UpdateCarForm from "./UpdateCarForm";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function Table({ cars }) {
   const [modal, setModal] = useState(false);
   const [carToUpdate, setCarToUpdate] = useState(null);
 
-  const { handleRemove } = useCar();
-
-  console.log(modal);
+  const { handleRemove, loading } = useCar();
 
   const closeModal = () => {
     setModal(false);
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
       <div className="p-4">

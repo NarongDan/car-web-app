@@ -53,46 +53,55 @@ export default function Login() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow-lg" style={{ width: "400px" }}>
-        <div className="card-body">
-          <h3 className="card-title text-center mb-4 fw-bolder">Login</h3>
-          <form onSubmit={handleSubmitForm}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email address
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                name="email"
-                placeholder="Enter email"
-                value={input.email}
-                onChange={handleChange}
-              />
-              <p className="text-danger mt-1"> {inputError.email} </p>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                placeholder="Password"
-                value={input.password}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="text-danger mt-1">{inputError.password}</p>
-            <div className="d-grid gap-2">
-              <button type="submit" className="btn btn-primary">
-                Login
-              </button>
-            </div>
-          </form>
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md space-y-6">
+        <div className="">
+          <h3 className="text-center text-2xl font-bold">Login</h3>
         </div>
+        <form onSubmit={handleSubmitForm}>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-medium mb-1"
+            >
+              Email address
+            </label>
+            <input
+              type="email"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              name="email"
+              placeholder="Enter email"
+              value={input.email}
+              onChange={handleChange}
+            />
+            <p className="text-red-500 mt-1"> {inputError.email} </p>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-medium mb-1"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              name="password"
+              placeholder="Password"
+              value={input.password}
+              onChange={handleChange}
+            />
+            <p className="text-red-500 mt-1">{inputError.password}</p>
+          </div>
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            >
+              Login
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

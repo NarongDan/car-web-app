@@ -4,32 +4,35 @@ import Textarea from "../../../components/Textarea";
 import { carStatus, fuelType } from "./option-value";
 import { useCar } from "../../../contexts/car-context";
 import validateCar from "../../../validtors/validate-car";
+import Select from "../../../components/Select";
 
-export default function UpdateCarForm({ car, setModal }) {
-  const id = car.id || undefined;
+const initialInput = {
+  licensePlate: "",
+  brand: "",
+  model: "",
+  color: "",
+  fuelType: "",
+  status: "",
+  insurance: "",
+  notes: "",
+};
+
+export default function UpdateCarForm({ car = {}, setModal }) {
+  const id = car?.id || undefined;
 
   const { handleUpdateAndAddCar } = useCar();
 
   const [input, setInput] = useState({
-    licensePlate: "",
-    brand: "",
-    model: "",
-    color: "",
-    fuelType: "",
-    status: "",
-    insurance: "",
-    notes: "",
+    licensePlate: car.licensePlate || "",
+    brand: car.brand || "",
+    model: car.model || "",
+    color: car.color || "",
+    fuelType: car.fuelType || "",
+    status: car.status || "",
+    insurance: car.insurance || "",
+    notes: car.notes || "",
   });
-  const [inputError, setInputError] = useState({
-    licensePlate: "",
-    brand: "",
-    model: "",
-    color: "",
-    fuelType: "",
-    status: "",
-    insurance: "",
-    notes: "",
-  });
+  const [inputError, setInputError] = useState(initialInput);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,8 +49,13 @@ export default function UpdateCarForm({ car, setModal }) {
     if (error) {
       return setInputError(error);
     }
+
     const message = await handleUpdateAndAddCar(id, input);
 
+    if (message.text) {
+      setInputError(initialInput);
+      setInput(initialInput);
+    }
     if (message) {
       const errorMessage = message.errors
         ? message.errors.reduce((acc, err) => {
@@ -57,23 +65,24 @@ export default function UpdateCarForm({ car, setModal }) {
         : { [message.field]: message.message };
 
       setInputError((prev) => ({ ...prev, ...errorMessage }));
-    } else setModal(false);
+    }
+    setModal(false);
   };
 
   useEffect(() => {
-    if (car) {
+    if (car && Object.keys(car).length > 0) {
       setInput({
-        licensePlate: car.licensePlate || "",
-        brand: car.brand || "",
-        model: car.model || "",
-        color: car.color || "",
-        fuelType: car.fuelType || "",
-        status: car.status || "",
-        insurance: car.insurance || "",
-        notes: car.notes || "",
+        licensePlate: car.licensePlate,
+        brand: car.brand,
+        model: car.model,
+        color: car.color,
+        fuelType: car.fuelType,
+        status: car.status,
+        insurance: car.insurance,
+        notes: car.notes,
       });
     }
-  }, []);
+  }, [car]);
 
   return (
     <div className="max-w-md mx-auto bg-white p-8 shadow-md rounded-md">
@@ -124,11 +133,12 @@ export default function UpdateCarForm({ car, setModal }) {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Fuel Type</label>
-          <select
+
+          <Select
             name="fuelType"
             value={input.fuelType}
             onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            error={inputError.fuelType}
           >
             <option value="" disabled>
               Select Fuel Type
@@ -136,24 +146,24 @@ export default function UpdateCarForm({ car, setModal }) {
             {fuelType?.map((type, index) => (
               <option value={`${type}`} key={index}>{`${type}`}</option>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Status</label>
-          <select
+          <Select
             name="status"
             value={input.status}
             onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            error={inputError.status}
           >
+            S
             <option value="" disabled>
               Select Status
             </option>
-
             {carStatus?.map((status, index) => (
               <option value={`${status}`} key={index}>{`${status}`}</option>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Insurance</label>
